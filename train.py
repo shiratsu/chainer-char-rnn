@@ -25,9 +25,9 @@ def load_data(args):
         if word not in vocab:
             vocab[word] = len(vocab)
         dataset[i] = vocab[word]
-    print("-----------word--------")
-    print(words)
-    print("-----------vocab--------")  
+    # print("-----------word--------")
+    # print(words)
+    print("-----------vocab--------")
     print(vocab)
     print('corpus length:', len(words))
     print('vocab size:', len(vocab))
@@ -90,11 +90,18 @@ else:
     accum_loss   = Variable(np.zeros((), dtype=np.float32))
 
 print('going to train {} iterations'.format(jump * n_epochs))
-for i in range(jump * n_epochs):
-    x_batch = np.array([train_data[(jump * j + i) % whole_len]
-                        for j in xrange(batchsize)])
-    y_batch = np.array([train_data[(jump * j + i + 1) % whole_len]
-                        for j in xrange(batchsize)])
+print(train_data)
+print(batchsize)
+for i in range(int(jump * n_epochs)):
+
+    # for j in range(batchsize):
+    #     print(train_data[int((jump * j + i) % whole_len]))
+
+    # ある言葉の次に何が来るかを推測するために、yは次のindexを指定
+    x_batch = np.array([train_data[int((jump * j + i) % whole_len)]
+                        for j in range(batchsize)])
+    y_batch = np.array([train_data[int((jump * j + i + 1) % whole_len)]
+                        for j in range(batchsize)])
 
     if args.gpu >=0:
         x_batch = cuda.to_gpu(x_batch)

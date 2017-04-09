@@ -127,6 +127,9 @@ for i in range(int(jump * n_epochs)):
         optimizer.update()
 
     if (i + 1) % 10000 == 0:
+        # モデルの情報をファイルに書き込んでいる
+        # トレーニング結果を別で利用するため
+        # これをすれば毎回トレーニングさせてから、文章作らせる必要ないね
         fn = ('%s/charrnn_epoch_%.2f.chainermodel' % (args.checkpoint_dir, float(i)/jump))
         pickle.dump(copy.deepcopy(model).to_cpu(), open(fn, 'wb'))
         pickle.dump(copy.deepcopy(model).to_cpu(), open('%s/latest.chainermodel'%(args.checkpoint_dir), 'wb'))
